@@ -1,21 +1,29 @@
-document.getElementById('signup-form').addEventListener('submit', function(event) {
-    event.preventDefault(); 
+document.addEventListener('DOMContentLoaded', (event) => {
+    'use strict';
 
-    const username = document.getElementById('Username').value;
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    const phone = document.getElementById('phone').value;
-    const address = document.getElementById('address').value;
+    var form = document.querySelector('.needs-validation');
+    
+    form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+        } else {
+            event.preventDefault();
+            saveFormData();
+        }
+        form.classList.add('was-validated');
+    }, false);
 
-    const user = {
-        username: username,
-        email: email,
-        password: password,
-        phone: phone,
-        address: address
-    };
-
-    localStorage.setItem(email, JSON.stringify(user));
-
-    alert('Kayıt başarılı!');
+    function saveFormData() {
+        var user = {
+            firstName: document.getElementById('inputFirstname4').value,
+            lastName: document.getElementById('inputLastname4').value,
+            email: document.getElementById('email').value,
+            password: document.getElementById('password').value,
+            address: document.getElementById('inputAddress').value,
+            check: document.getElementById('gridCheck').checked
+        };
+        localStorage.setItem('user', JSON.stringify(user));
+        alert('Form data saved successfully!');
+    }
 });

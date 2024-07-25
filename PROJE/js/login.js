@@ -1,21 +1,33 @@
-function loginFunc(event) {
-    event.preventDefault();
+document.addEventListener('DOMContentLoaded', (event) => {
+    'use strict';
 
-    var email = document.getElementById('email').value;
-    var password = document.getElementById('password').value;
-    var result = document.getElementById('result');
+    var form = document.querySelector('.needs-validation');
 
-    var user = localStorage.getItem(email); 
-    var data = JSON.parse(user);
+    form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+        } else {
+            event.preventDefault();
+            checkLogin();
+        }
+        form.classList.add('was-validated');
+    }, false);
 
-    if (data == null) {
-        result.innerHTML = 'Wrong email';
-    } else if (email == data.email && password == data.password) {
-        result.innerHTML = 'Logged in';
-        window.location.href="index.html";
-    } else {
-        result.innerHTML = 'Wrong password';
+    function checkLogin() {
+        var email = document.getElementById('email').value;
+        var password = document.getElementById('password').value;
+        var storedData = JSON.parse(localStorage.getItem('user'));
+
+        if (storedData) {
+            if (storedData.email === email && storedData.password === password) {
+                alert('Giriş Yapıldı!');
+                window.location.href = "index.html";
+            } else {
+                alert('Yanlış şifre veya email!');
+            }
+        } else {
+            alert('böle bir kullanıcı bulunamadı!');
+        }
     }
-}
-
-document.getElementById('signup-form').addEventListener('submit', loginFunc);
+});
